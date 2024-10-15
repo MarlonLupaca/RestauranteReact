@@ -42,6 +42,16 @@ const Sliderbar = () => {
                                     <i className="fas fa-users"></i><span>Empleados</span>
                                 </li>
                             </Link>
+                            <Link to="/Categorias">
+                                <li className='py-3 flex items-center gap-3 hover:text-[#fdf4ef] cursor-pointer'>
+                                    <i className="fas fa-list"></i><span>Categorias</span>
+                                </li>
+                            </Link>
+                            <Link to="/Usuarios">
+                                <li className='py-3 flex items-center gap-3 hover:text-[#fdf4ef] cursor-pointer'>
+                                    <i className="fas fa-user-friends"></i><span>Usuarios</span>
+                                </li>
+                            </Link>
                         </ul>
                     </nav>
                 </div>

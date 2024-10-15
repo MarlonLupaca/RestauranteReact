@@ -25,3 +25,23 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
+.grid_pedido{
+    display: grid;
+    grid-template-columns: 1fr 40px;
+    grid-template-rows: 1fr 1fr;
+}
+.quitar_outline{
+    outline: none;
+}
+
+.elemento {
+    white-space: nowrap; 
+    overflow: hidden;       /* Evita que el texto haga un salto de línea */
+    text-overflow: ellipsis;    /* Añade los tres puntos (...) al final del texto */
+}
+/* Para navegadores basados en WebKit (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

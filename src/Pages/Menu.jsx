@@ -2,6 +2,7 @@ import React from 'react'
 import Sliderbar from '../Components/Sliderbar'
 import Navegador from '../Components/Navegador'
 import Table from '../Components/Table';
+import Buscador from '../Components/Buscador';
 
 const Menu = () => {
     const columnasMenu = ['ID', 'Nombre', 'Categoría', 'Precio'];
@@ -18,7 +19,8 @@ const Menu = () => {
         <div className=' h-[100vh] flex'>
             <Sliderbar/>
             <Navegador name="Menú"/>
-            <main className='border flex-1 overflow-y-auto mt-[70px] p-10'>
+            <main className='border flex-1 overflow-y-auto mt-[40px] p-10'>
+                <Buscador/>
                 <Table columns={columnasMenu} data={data}/>
             </main>
         </div>

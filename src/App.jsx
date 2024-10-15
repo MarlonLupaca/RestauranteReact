@@ -7,6 +7,8 @@ import Menu from "./Pages/Menu";
 import Pedidos from "./Pages/Pedidos";
 import Pagos from "./Pages/Pagos";
 import Empleados from "./Pages/Empleados";
+import Categoria from "./Pages/Categoria";
+import Usuarios from "./Pages/Usuarios";
 
 function App() {
 
@@ -22,6 +24,9 @@ function App() {
         <Route path="/Pedidos" element={<Pedidos/>}/>
         <Route path="/Pagos" element={<Pagos/>}/>
         <Route path="/Empleados" element={<Empleados/>}/>
+        <Route path="/Categorias" element={<Categoria/>}/>
+        <Route path="/Usuarios" element={<Usuarios/>}/>
+
       </Routes>
       
     </HashRouter>
