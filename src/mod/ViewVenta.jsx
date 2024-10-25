@@ -38,8 +38,8 @@ const ViewVenta = () => {
                                 <span className='mr-1'>Categorias</span> <i className="fa-solid fa-chevron-up rotate-180 text-[12px]"></i>
                             </button>
                             {
-                                estadoBoton && <div className='absolute top-[105%]'>
-                                <ul className='bg-[#08343F] text-[#F9E3D6] font-[400] flex flex-col gap-[4px] text-[15px] pl-3 pr-4 py-2 rounded-lg w-fit'>
+                                estadoBoton && <div className='absolute top-[105%] w-max'>
+                                <ul className='bg-[#08343F] text-[#F9E3D6] font-[400] flex flex-col gap-[4px] text-[15px] pl-3 pr-4 py-2 rounded-lg w-fit hover:[&>li]:bg-[#10495A] hover:[&>li]:cursor-pointer'>
                                     <li>Entradas</li>
                                     <li>Platos principales</li>
                                     <li>Postres</li>
