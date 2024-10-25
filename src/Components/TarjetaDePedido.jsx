@@ -5,7 +5,7 @@ const TarjetaDePedido = () => {
         <div className='w-full grid_pedido'>
             <div className='h-[40px] flex justify-between pr-4 mb-1'>
                 <div className='flex gap-3'>
-                    <img src="assets/Cat_carne.jpg" alt="Plato" className='h-full rounded-lg'/>
+                    <img src="assets/Cat_carne.jpg" alt="Plato" className='h-full rounded-lg aspect-video'/>
                     <div className='flex flex-col justify-center font-[600] text-[12px] w-[140px] pr-4'>
                         <p className='elemento'>Tallarin de pastas que tienes dos contenido de </p>
                         <span>S/.12</span>
