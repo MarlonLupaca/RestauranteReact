@@ -4,7 +4,7 @@ import Navegador from '../Components/Navegador'
 import Mesa from '../Components/Mesa'
 import Modal from '../mod/Modal'
 
-import MESAS from '../Components/Consts/TmpMesas'
+import MESAS from '../Components/Data/TmpMesas'
 
 const Home = () => {
     const [ModEstado, setModEstado] = useState(false)
