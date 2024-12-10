@@ -1,52 +1,51 @@
-import React, { useState } from 'react'
-import Sliderbar from '../Components/Sliderbar'
-import Navegador from '../Components/Navegador'
-import Mesa from '../Components/Mesa'
-import Modal from '../mod/Modal'
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';  // Importamos axios para hacer solicitudes HTTP
+import Sliderbar from '../Components/Sliderbar';
+import Navegador from '../Components/Navegador';
+import Mesa from '../Components/Mesa';
+import Modal from '../mod/Modal';
 
 const Home = () => {
-    const [ModEstado, setModEstado] = useState(false)
+    const [modEstado, setModEstado] = useState(false);
+    const [mesas, setMesas] = useState([]); // Estado para almacenar las mesas obtenidas de la API
 
-    const TogleEstado = () =>{
-        setModEstado(!ModEstado)
-    }
+    const toggleEstado = () => {
+        setModEstado(!modEstado);
+    };
+
+    // Usamos useEffect para cargar las mesas desde la API cuando el componente se monta
+    useEffect(() => {
+        axios.get('http://localhost:8081/RestauranteBackend/mesa')
+            .then(response => {
+                if (response.data && response.data.Mesas) {
+                    setMesas(response.data.Mesas); // Guardamos las mesas en el estado
+                }
+            })
+            .catch(error => console.error('Error al obtener las mesas:', error));
+    }, []); // El array vacío asegura que esta solicitud solo se realice una vez cuando el componente se monte
 
     return (
-        <div className=' h-[100vh] flex'>
-            <Sliderbar/>
-            <Navegador name="Dashboard"/>
+        <div className='h-[100vh] flex'>
+            <Sliderbar />
+            <Navegador name="Dashboard" />
             <main className='flex-1 overflow-y-auto mt-[70px] custom_grid p-10 justify-items-center gap-10'>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="1"/>
-                <Mesa TogleEstado={TogleEstado} estado="Ocupado" mesa="2"/>
-                <Mesa TogleEstado={TogleEstado} estado="Reservado" mesa="3"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="5"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="6"/>
-                <Mesa TogleEstado={TogleEstado} estado="Ocupado" mesa="7"/>
-                <Mesa TogleEstado={TogleEstado} estado="Reservado" mesa="8"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="9"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="10"/>
-                <Mesa TogleEstado={TogleEstado} estado="Ocupado" mesa="11"/>
-                <Mesa TogleEstado={TogleEstado} estado="Ocupado" mesa="12"/>
-                <Mesa TogleEstado={TogleEstado} estado="Ocupado" mesa="13"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="14"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="15"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
-                <Mesa TogleEstado={TogleEstado} estado="Libre" mesa="16"/>
+                {/* Mapeamos las mesas para renderizarlas */}
+                {mesas.map((mesa) => (
+                    <Mesa
+                        key={mesa.id}
+                        TogleEstado={toggleEstado}
+                        estado={mesa.estado} // Pasamos el estado de la mesa
+                        mesa={mesa.numero}  // Pasamos el número de la mesa
+                    />
+                ))}
             </main>
 
-            {ModEstado && (
-                <Modal TogleEstado={TogleEstado}/>
+            {/* Modal para cambiar el estado de la mesa */}
+            {modEstado && (
+                <Modal TogleEstado={toggleEstado} />
             )}
-            
         </div>
+    );
+};
 
-    )
-}
-
-export default Home
+export default Home;

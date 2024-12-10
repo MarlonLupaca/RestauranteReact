@@ -9,13 +9,15 @@ import Pagos from "./Pages/Pagos";
 import Empleados from "./Pages/Empleados";
 import Categoria from "./Pages/Categoria";
 import Usuarios from "./Pages/Usuarios";
+import Register from "./Pages/Register";
+import { ToastContainer } from "react-toastify";
 
 function App() {
 
   return (
     <>
     <HashRouter>
-      
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Login/>}/>
         <Route path="/Home" element={<Home/>}/>
@@ -26,6 +28,7 @@ function App() {
         <Route path="/Empleados" element={<Empleados/>}/>
         <Route path="/Categorias" element={<Categoria/>}/>
         <Route path="/Usuarios" element={<Usuarios/>}/>
+        <Route path="/Register" element={<Register/>}/>
 
       </Routes>
       
