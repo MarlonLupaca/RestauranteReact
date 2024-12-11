@@ -7,10 +7,11 @@ import Buscador from '../Components/Buscador';
 const Menu = () => {
     const columnasMenu = ['ID', 'Nombre', 'Categoría', 'Precio', 'Acciones'];
     const [menu, setMenu] = useState([]);
+    const [categorias, setCategorias] = useState([]); // Estado para categorías
     const [showModal, setShowModal] = useState(false);
-    const [modalType, setModalType] = useState(''); // 'edit' o 'add'
-    const [selectedItem, setSelectedItem] = useState(null); // Elemento seleccionado
-    const [newItem, setNewItem] = useState({ nombre: '', categoria: '', precio: 0 }); // Nuevo producto
+    const [modalType, setModalType] = useState('');
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [newItem, setNewItem] = useState({ nombre: '', categoria: '', precio: 0 });
 
     // Cargar datos del menú desde la API
     useEffect(() => {
@@ -23,19 +24,27 @@ const Menu = () => {
             .catch(error => console.error('Error al obtener el menú:', error));
     }, []);
 
+    // Cargar categorías desde la API
+    useEffect(() => {
+        axios.get('http://localhost:8081/RestauranteBackend/categoria')
+            .then(response => {
+                if (response.data && response.data.Categorias) {
+                    setCategorias(response.data.Categorias);
+                }
+            })
+            .catch(error => console.error('Error al obtener las categorías:', error));
+    }, []);
+
     const handleEdit = (item) => {
         setSelectedItem(item);
-        setNewItem({ nombre: item.nombre, categoria: item.categoria, precio: item.precio }); // Precarga el formulario
+        setNewItem({ nombre: item.nombre, categoria: item.categoria, precio: item.precio });
         setModalType('edit');
         setShowModal(true);
     };
 
     const handleDelete = (id) => {
         axios.delete(`http://localhost:8081/RestauranteBackend/menu?id=${id}`)
-            .then(() => {
-                // Filtrar el producto eliminado del menú actual
-                setMenu(menu.filter(item => item.id !== id));
-            })
+            .then(() => setMenu(menu.filter(item => item.id !== id)))
             .catch(error => console.error('Error al eliminar el producto:', error));
     };
 
@@ -46,7 +55,7 @@ const Menu = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        setNewItem({ nombre: '', categoria: '', precio: 0 }); // Limpiar formulario
+        setNewItem({ nombre: '', categoria: '', precio: 0 });
     };
 
     const handleInputChange = (e) => {
@@ -59,31 +68,22 @@ const Menu = () => {
 
     const handleSaveItem = () => {
         if (modalType === 'add') {
-            // Agregar nuevo producto
             axios.post('http://localhost:8081/RestauranteBackend/menu', newItem)
                 .then(response => {
                     if (response.data && response.data.Menu) {
-                        setMenu([...menu, {
-                            id: response.data.Menu.id,
-                            nombre: response.data.Menu.nombre,
-                            categoria: response.data.Menu.categoria,
-                            precio: response.data.Menu.precio,
-                        }]);
+                        setMenu([...menu, response.data.Menu]);
                     }
                     handleCloseModal();
                 })
                 .catch(error => console.error('Error al agregar el producto:', error));
         } else if (modalType === 'edit' && selectedItem) {
-            // Editar producto existente
             axios.put('http://localhost:8081/RestauranteBackend/menu', {
                 id: selectedItem.id,
                 ...newItem,
             })
-                .then(response => {
+                .then(() => {
                     const updatedMenu = menu.map(item =>
-                        item.id === selectedItem.id
-                            ? { ...item, ...newItem }
-                            : item
+                        item.id === selectedItem.id ? { ...item, ...newItem } : item
                     );
                     setMenu(updatedMenu);
                     handleCloseModal();
@@ -138,7 +138,6 @@ const Menu = () => {
                     </tbody>
                 </table>
 
-                {/* Modal */}
                 {showModal && (
                     <div className="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50 z-10">
                         <div className="bg-white p-6 rounded-md w-[400px] shadow-md">
@@ -151,14 +150,19 @@ const Menu = () => {
                                 className="border p-2 mb-4 w-full"
                                 placeholder="Nombre"
                             />
-                            <input
-                                type="text"
+                            <select
                                 name="categoria"
                                 value={newItem.categoria}
                                 onChange={handleInputChange}
                                 className="border p-2 mb-4 w-full"
-                                placeholder="Categoría"
-                            />
+                            >
+                                <option value="">Selecciona una categoría</option>
+                                {categorias.map(categoria => (
+                                    <option key={categoria.id} value={categoria.nombre}>
+                                        {categoria.nombre}
+                                    </option>
+                                ))}
+                            </select>
                             <input
                                 type="number"
                                 name="precio"
